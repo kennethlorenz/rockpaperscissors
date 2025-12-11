@@ -27,7 +27,6 @@ function getComputerChoice() {
 
 function getUserChoice() {
   userChoice = window.prompt("Rock, Paper, or Scissors?");
-  console.log(userChoice);
 }
 
 function getBothUserAndCompChoice() {
@@ -36,8 +35,7 @@ function getBothUserAndCompChoice() {
 }
 
 document.querySelector("button").addEventListener("click", () => {
-  getBothUserAndCompChoice();
-  playRound(userChoice, computerChoice);
+  playGame(userChoice, computerChoice);
 });
 
 function playRound(userChoice, computerChoice) {
@@ -78,3 +76,20 @@ function playRound(userChoice, computerChoice) {
     );
   }
 }
+
+function playGame() {
+  let i = 0;
+  let keepGoing = true;
+  while (keepGoing) {
+    getBothUserAndCompChoice();
+    playRound(userChoice, computerChoice);
+    i++;
+
+    if (i >= 5) {
+      console.log("Game Over");
+      keepGoing = false;
+    }
+  }
+}
+
+playGame();
