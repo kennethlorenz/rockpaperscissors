@@ -91,5 +91,3 @@ function playGame() {
     }
   }
 }
-
-playGame();
