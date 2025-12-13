@@ -8,12 +8,23 @@ In the play game function, we call a function to display who's the winner.
 In the play game function, we ask the player to play again.
 */
 
-let button = document.querySelector("button");
+const HANDSELECTION = document.querySelector(".hand-selection");
+const PLAYERSCORETEXT = document.querySelector(".playerScore");
+const COMPUTERSCORETEXT = document.querySelector(".computerScore");
+const HEADING = document.querySelector(".heading");
+const MESSAGE = document.querySelector(".message");
+const PLAYERHAND = document.querySelector(".playerHand");
+const COMPUTERHAND = document.querySelector(".computerHand");
+const YOUWINTEXT = "You Win!";
+const YOULOSTTEXT = "You Lost!";
+const DRAWTEXT = "It's a Draw!";
+const ICONS = ["✊", "✋", "✌️"];
+
 let playerScore = 0;
 let computerScore = 0;
 
 let computerChoice;
-let userChoice;
+let playerChoice;
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -25,55 +36,76 @@ function getComputerChoice() {
   return computerChoice;
 }
 
-function getUserChoice() {
-  userChoice = window.prompt("Rock, Paper, or Scissors?");
+function updateHeadingAndMessage(headingText, messageText) {
+  HEADING.textContent = headingText;
+  MESSAGE.textContent = messageText;
 }
 
-function getBothUserAndCompChoice() {
-  getUserChoice();
-  getComputerChoice();
+function updatePlayerScoreText() {
+  playerScore += 1;
+  PLAYERSCORETEXT.textContent = playerScore;
+}
+function updateComputerScoreText() {
+  computerScore += 1;
+  COMPUTERSCORETEXT.textContent = computerScore;
 }
 
-document.querySelector("button").addEventListener("click", () => {
-  playGame(userChoice, computerChoice);
-});
+function updatePlayerHandIcon(iconIndex) {
+  PLAYERHAND.textContent = ICONS[iconIndex];
+}
+function updateComputerHandIcon(iconIndex) {
+  COMPUTERHAND.textContent = ICONS[iconIndex];
+}
 
-function playRound(userChoice, computerChoice) {
+function getIconByIndex(hand) {
+  let index;
+  if (hand == "Rock") {
+    index = 0;
+  } else if (hand == "Paper") {
+    index = 1;
+  } else if (hand == "Scissors") {
+    index = 2;
+  }
+  return index;
+}
+
+function updateHands(playerChoice, computerChoice) {
+  playerIndex = getIconByIndex(playerChoice);
+  computerIndex = getIconByIndex(computerChoice);
+
+  updatePlayerHandIcon(playerIndex);
+  updateComputerHandIcon(computerIndex);
+}
+
+function playRound(playerChoice, computerChoice) {
   // winning hands for the user
   if (
-    (userChoice == "Rock" && computerChoice == "Scissors") ||
-    (userChoice == "Paper" && computerChoice == "Rock") ||
-    (userChoice == "Scissors" && computerChoice == "Paper")
+    (playerChoice == "Rock" && computerChoice == "Scissors") ||
+    (playerChoice == "Paper" && computerChoice == "Rock") ||
+    (playerChoice == "Scissors" && computerChoice == "Paper")
   ) {
-    console.log(`You win! Computer chose ${computerChoice}`);
-    playerScore += 1;
-    console.log(
-      `Player Score: ${playerScore}, Computer Score: ${computerScore}`
-    );
+    updateHeadingAndMessage(YOUWINTEXT, `Computer chose ${computerChoice}`);
+    updateHands(playerChoice, computerChoice);
+    updatePlayerScoreText();
   }
   // losing hands for the user
   else if (
-    (userChoice == "Rock" && computerChoice == "Paper") ||
-    (userChoice == "Paper" && computerChoice == "Scissors") ||
-    (userChoice == "Scissors" && computerChoice == "Rock")
+    (playerChoice == "Rock" && computerChoice == "Paper") ||
+    (playerChoice == "Paper" && computerChoice == "Scissors") ||
+    (playerChoice == "Scissors" && computerChoice == "Rock")
   ) {
-    console.log(`You lose! Computer chose ${computerChoice}`);
-    computerScore += 1;
-    console.log(
-      `Player Score: ${playerScore}, Computer Score: ${computerScore}`
-    );
+    updateHeadingAndMessage(YOULOSTTEXT, `Computer chose ${computerChoice}`);
+    updateHands(playerChoice, computerChoice);
+    updateComputerScoreText();
   }
   //draw hand for the user
   else if (
-    (userChoice == "Rock" && computerChoice == "Rock") ||
-    (userChoice == "Paper" && computerChoice == "Paper") ||
-    (userChoice == "Scissors" && computerChoice == "Scissors")
+    (playerChoice == "Rock" && computerChoice == "Rock") ||
+    (playerChoice == "Paper" && computerChoice == "Paper") ||
+    (playerChoice == "Scissors" && computerChoice == "Scissors")
   ) {
-    console.log("It's a Draw!");
-    console.log(`Computer chose ${computerChoice} too!`);
-    console.log(
-      `Player Score: ${playerScore}, Computer Score: ${computerScore}`
-    );
+    updateHeadingAndMessage(DRAWTEXT, `Computer also chose ${computerChoice}`);
+    updateHands(playerChoice, computerChoice);
   }
 }
 
@@ -82,7 +114,7 @@ function playGame() {
   let keepGoing = true;
   while (keepGoing) {
     getBothUserAndCompChoice();
-    playRound(userChoice, computerChoice);
+    playRound(playerChoice, computerChoice);
     i++;
 
     if (i >= 5) {
@@ -91,3 +123,23 @@ function playGame() {
     }
   }
 }
+
+HANDSELECTION.addEventListener("click", (e) => {
+  switch (e.target.id) {
+    case "rock":
+      playerChoice = "Rock";
+      computerChoice = getComputerChoice();
+      playRound(playerChoice, computerChoice);
+      break;
+    case "paper":
+      playerChoice = "Paper";
+      computerChoice = getComputerChoice();
+      playRound(playerChoice, computerChoice);
+      break;
+    case "scissors":
+      playerChoice = "Scissors";
+      computerChoice = getComputerChoice();
+      playRound(playerChoice, computerChoice);
+      break;
+  }
+});
