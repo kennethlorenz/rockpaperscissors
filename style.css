@@ -1,0 +1,89 @@
+:root {
+  --pallette-500: #637479;
+  --pallette-800: #40474a;
+  --pallette-950: #232729;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+}
+
+header {
+  background-color: var(--pallette-950);
+  color: #fac650;
+  padding: 45px 0;
+}
+
+.heading {
+  font-size: 40px;
+}
+
+main,
+footer {
+  padding: 35px;
+  background-color: var(--pallette-800);
+  color: white;
+}
+
+.message {
+  margin-top: 20px;
+  margin-bottom: 25px;
+  font-size: 30px;
+}
+
+p,
+.message {
+  font-weight: bold;
+}
+
+.scoreContainer,
+.hand-selection {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+}
+
+.scoreContainer {
+  margin-top: 35px;
+}
+
+main {
+  padding-bottom: 150px;
+}
+
+.playerHand,
+.computerHand,
+.hand {
+  font-size: 100px;
+}
+
+.hand-selection {
+  margin-top: 90px;
+}
+
+.hand {
+  background-color: var(--pallette-500);
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.2s;
+}
+
+.hand:hover {
+  -ms-transform: scale(1.05); /* IE 9 */
+  -webkit-transform: scale(1.05); /* Safari 3-8 */
+  transform: scale(1.05);
+}
+
+.hand:active {
+  -ms-transform: scale(1); /* IE 9 */
+  -webkit-transform: scale(1); /* Safari 3-8 */
+  transform: scale(1);
+}
