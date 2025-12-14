@@ -15,10 +15,9 @@ const HEADING = document.querySelector(".heading");
 const MESSAGE = document.querySelector(".message");
 const PLAYERHAND = document.querySelector(".playerHand");
 const COMPUTERHAND = document.querySelector(".computerHand");
-const YOUWINTEXT = "You Win!";
-const YOULOSTTEXT = "You Lost!";
-const DRAWTEXT = "It's a Draw!";
 const ICONS = ["✊", "✋", "✌️"];
+const MODALOVERLAY = document.querySelector("#modal-overlay");
+const PLAYAGAINBTN = document.querySelector("#playAgain");
 
 let playerScore = 0;
 let computerScore = 0;
@@ -77,16 +76,29 @@ function updateHands(playerChoice, computerChoice) {
   updateComputerHandIcon(computerIndex);
 }
 
+function updateUI(playerChoice, computerChoice, text, winner) {
+  updateHeadingAndMessage(text, `Computer chose ${computerChoice}`);
+  updateHands(playerChoice, computerChoice);
+
+  if (winner == "Player") {
+    updatePlayerScoreText();
+  } else if (winner == "Computer") {
+    updateComputerScoreText();
+  }
+}
+
 function playRound(playerChoice, computerChoice) {
+  const YOUWINTEXT = "You Win!";
+  const YOULOSTTEXT = "You Lost!";
+  const DRAWTEXT = "It's a Draw!";
   // winning hands for the user
   if (
     (playerChoice == "Rock" && computerChoice == "Scissors") ||
     (playerChoice == "Paper" && computerChoice == "Rock") ||
     (playerChoice == "Scissors" && computerChoice == "Paper")
   ) {
-    updateHeadingAndMessage(YOUWINTEXT, `Computer chose ${computerChoice}`);
-    updateHands(playerChoice, computerChoice);
-    updatePlayerScoreText();
+    updateUI(playerChoice, computerChoice, YOUWINTEXT, "Player");
+    isGameOver(playerScore, computerScore);
   }
   // losing hands for the user
   else if (
@@ -94,9 +106,8 @@ function playRound(playerChoice, computerChoice) {
     (playerChoice == "Paper" && computerChoice == "Scissors") ||
     (playerChoice == "Scissors" && computerChoice == "Rock")
   ) {
-    updateHeadingAndMessage(YOULOSTTEXT, `Computer chose ${computerChoice}`);
-    updateHands(playerChoice, computerChoice);
-    updateComputerScoreText();
+    updateUI(playerChoice, computerChoice, YOULOSTTEXT, "Computer");
+    isGameOver(playerScore, computerScore);
   }
   //draw hand for the user
   else if (
@@ -104,25 +115,36 @@ function playRound(playerChoice, computerChoice) {
     (playerChoice == "Paper" && computerChoice == "Paper") ||
     (playerChoice == "Scissors" && computerChoice == "Scissors")
   ) {
-    updateHeadingAndMessage(DRAWTEXT, `Computer also chose ${computerChoice}`);
-    updateHands(playerChoice, computerChoice);
+    updateUI(playerChoice, computerChoice, DRAWTEXT);
   }
 }
 
-function playGame() {
-  let i = 0;
-  let keepGoing = true;
-  while (keepGoing) {
-    getBothUserAndCompChoice();
-    playRound(playerChoice, computerChoice);
-    i++;
-
-    if (i >= 5) {
-      console.log("Game Over");
-      keepGoing = false;
-    }
+function isGameOver(playerScore, computerScore) {
+  if (playerScore == 5 || computerScore == 5) {
+    toggleGameOverModal();
+    console.log("Game Over");
   }
 }
+
+function toggleGameOverModal() {
+  MODALOVERLAY.classList.toggle("hidden");
+}
+
+function restartGame() {
+  HEADING.textContent = "Choose your hand";
+  MESSAGE.textContent = "First to 5!";
+  PLAYERHAND.textContent = "❔";
+  COMPUTERHAND.textContent = "❔";
+  PLAYERSCORETEXT.textContent = "0";
+  COMPUTERSCORETEXT.textContent = "0";
+  playerScore = 0;
+  computerScore = 0;
+  toggleGameOverModal();
+}
+
+PLAYAGAINBTN.addEventListener("click", () => {
+  restartGame();
+});
 
 HANDSELECTION.addEventListener("click", (e) => {
   switch (e.target.id) {
