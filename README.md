@@ -5,7 +5,7 @@
 ##
 
 Main Screen
-![](https://github.com/kennethlorenz/rockpaperscissors/blob/main/RPS.png)
+![](https://github.com/kennethlorenz/rockpaperscissors/blob/main/images/RPS.png)
 
 Game Over Screen
 ![](https://github.com/kennethlorenz/rockpaperscissors/blob/main/images/gameover%20screen.png)
