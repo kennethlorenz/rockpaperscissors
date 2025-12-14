@@ -4,4 +4,4 @@
 
 ##
 
-1[](https://github.com/kennethlorenz/rockpaperscissors/blob/main/RPS.png)
+![](https://github.com/kennethlorenz/rockpaperscissors/blob/main/RPS.png)
